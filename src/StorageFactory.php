@@ -99,6 +99,11 @@ class StorageFactory
         return new MemoryStorage($options);
     }
 
+    public function createAwsS3Storage($options = array())
+    {
+        $client = S3Client::factory();
+    }
+
     /**
      * @param string $name
      * @param callable $storageResolver
