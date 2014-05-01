@@ -10,7 +10,7 @@ return array(
     |
     */
 
-    'connection' => 'sqlite',
+    'connection' => 'mysql',
 
     /*
     |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ return array(
     |
     */
 
-    'fallback_storage' => 'fallback',
+    'fallback_storage' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return array(
                 'path' => 'files/photos'
             )
         ),
-        'fallback' => array(
+        'default' => array(
             'storage' => 'local',
             'options' => array(
                 'root' => public_path(),
