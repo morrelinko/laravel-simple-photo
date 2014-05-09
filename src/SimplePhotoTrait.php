@@ -16,23 +16,25 @@ trait SimplePhotoTrait
         $data = parent::getAttribute($key);
 
         if (array_key_exists($key, $this->photos)) {
-            if (isset($this->photosHash[$key])) {
-                return $this->photosHash[$key];
+            $id = $this->getKey();
+            if (isset($this->photosHash[$id][$key])) {
+                return $this->photosHash[$id][$key];
             }
 
             $sp = app('simple-photo');
             $parameters = $this->photos[$key];
-            $photoData = null;
 
-            if ($data instanceof SimplePhotoModel) {
+            if ($data instanceof Photo) {
                 $data = $sp->build($data->toArray(), $parameters);
-            } else if (isset($this->relations[$key]) && $data == null) {
-                $data = $sp->build(null, $parameters);
+            } else if (array_key_exists($key, $this->relations)) {
+                if ($data == null) {
+                    $data = $sp->build(null, $parameters);
+                }
             } else {
-                $data = $sp->get($this->{$parameters['column']}, $parameters);
+                $data = $sp->get($this->getKey(), $parameters);
             }
 
-            $this->photosHash[$key] = $data;
+            $this->photosHash[$id][$key] = $data;
         }
 
         return $data;
