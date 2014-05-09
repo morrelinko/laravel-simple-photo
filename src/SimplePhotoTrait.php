@@ -3,31 +3,38 @@
 namespace Morrelinko\LaravelSimplePhoto;
 
 /**
+ * @property-read $photos array
+ * @property-read $relations array
  * @author Laju Morrison <morrelinko@gmail.com>
  */
 trait SimplePhotoTrait
 {
     protected $photosHash = [];
 
-    public function getPhotoForParameter($param)
+    public function getAttribute($key)
     {
-        $photoId = $this->{$this->photos[$param]['column']};
-        unset($this->photos[$param]['column']);
-        $options = $this->photos[$param];
+        $data = parent::getAttribute($key);
 
-        return app('simple-photo')->get($photoId, $options);
-    }
-
-    public function __get($property)
-    {
-        if (array_key_exists($property, $this->photos)) {
-            if (isset($this->photosHash[$property])) {
-                return $this->photosHash[$property];
+        if (array_key_exists($key, $this->photos)) {
+            if (isset($this->photosHash[$key])) {
+                return $this->photosHash[$key];
             }
 
-            return $this->photosHash[$property] = $this->getPhotoForParameter($property);
+            $sp = app('simple-photo');
+            $parameters = $this->photos[$key];
+            $photoData = null;
+
+            if ($data instanceof SimplePhotoModel) {
+                $data = $sp->build($data->toArray(), $parameters);
+            } else if (isset($this->relations[$key]) && $data == null) {
+                $data = $sp->build(null, $parameters);
+            } else {
+                $data = $sp->get($this->{$parameters['column']}, $parameters);
+            }
+
+            $this->photosHash[$key] = $data;
         }
 
-        return parent::__get($property);
+        return $data;
     }
 }
