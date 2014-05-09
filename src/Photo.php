@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @author Laju Morrison <morrelinko@gmail.com>
  */
-class SimplePhotoModel extends Model
+class Photo extends Model
 {
     protected $table = 'photos';
 
