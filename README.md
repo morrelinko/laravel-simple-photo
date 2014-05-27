@@ -86,6 +86,11 @@ class User extends Model
     );
 
     use SimplePhotoTrait;
+
+    public function photo()
+    {
+        return $this->belongsTo('Morrelinko\LaravelSimplePhoto\Photo', 'photo_id', 'id');
+    }
 }
 ```
 
@@ -129,6 +134,21 @@ class User extends Model
     );
 
     use SimplePhotoTrait;
+
+    public function photo()
+    {
+        return $this->belongsTo('Morrelinko\LaravelSimplePhoto\Photo', 'photo_id', 'id');
+    }
+
+    public function coverPhoto()
+    {
+        return $this->belongsTo('Morrelinko\LaravelSimplePhoto\Photo', 'cover_photo_id', 'id');
+    }
+
+    public function profileBg()
+    {
+        return $this->belongsTo('Morrelinko\LaravelSimplePhoto\Photo', 'profile_bg_id', 'id');
+    }
 }
 
 $user = User::find(1);
