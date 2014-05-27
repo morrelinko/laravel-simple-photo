@@ -1,6 +1,7 @@
 {
     "name": "morrelinko/laravel-simple-photo",
     "description": "",
+    "license": "MIT",
     "authors": [
         {
             "name": "Laju Morrison",

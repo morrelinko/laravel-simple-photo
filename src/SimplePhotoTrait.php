@@ -39,4 +39,25 @@ trait SimplePhotoTrait
 
         return $data;
     }
+
+    /**
+     * @param \SimplePhoto\PhotoResult $photo
+     * @return array
+     */
+    public function getPhotosAttribute($photo)
+    {
+        return [
+            'url' => $photo->url()
+        ];
+    }
+
+    public function toArray()
+    {
+        $result = parent::toArray();
+        foreach ($this->photos as $key => $photo) {
+            $result[$key] = $this->getPhotosAttribute($this->getAttribute($key));
+        }
+
+        return $result;
+    }
 }
